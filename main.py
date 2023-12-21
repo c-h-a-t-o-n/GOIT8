@@ -1,10 +1,14 @@
 from datetime import date, datetime
 
+
 def get_birthdays_per_week(users):
     result = {}
 
     # Словник для відповідності чисел дням тижня
-    DAYS_OF_WEEK = {0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday", 4: "Friday", 5: "Saturday", 6: "Sunday"}
+    DAYS_OF_WEEK = {
+        0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday",
+        4: "Friday", 5: "Saturday", 6: "Sunday"
+    }
 
     if not users:
         return result
@@ -14,6 +18,7 @@ def get_birthdays_per_week(users):
 
     # Перебір користувачів для знаходження найближчих днів народження
     for user in users:
+        # Заміна року народження користувача на поточний рік
         user_birthday_in_this_year = user["birthday"].replace(year=this_year)
         user_birthday_in_next_year = user["birthday"].replace(year=this_year + 1)
 
@@ -31,6 +36,7 @@ def get_birthdays_per_week(users):
         # Визначення дня тижня для найближчого дня народження
         user_closest_birthday_day = user_closest_birthday.weekday()
         user_closest_birthday_day = 0 if user_closest_birthday_day >= 5 else user_closest_birthday_day
+
         # Додавання імен користувачів до відповідного дня тижня
         result.setdefault(DAYS_OF_WEEK[user_closest_birthday_day], []).append(user["name"])
 
@@ -47,6 +53,6 @@ if __name__ == "__main__":
 
     result = get_birthdays_per_week(users)
 
-    # Вивід результату
+    # Displaying the result
     for day_name, names in result.items():
         print(f"{day_name}: {', '.join(names)}")
